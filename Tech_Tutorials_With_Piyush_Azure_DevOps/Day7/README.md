@@ -31,7 +31,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      name: ATB Pool
     steps:
     - task: Npm@1
       inputs:
@@ -58,4 +58,8 @@ stages:
 cp -rf /home/site/wwwroot/package/* /home/site/wwwroot/
 ```
 
+### For those running on windows agent you can update package.json like this:
 
+```Bash
+ "build": "powershell -Command \"Remove-Item -Recurse -Force dist; vite build; if (!(Test-Path dist)) { New-Item -ItemType Directory -Path dist }; (Get-Content ./package.json) -replace '\"private\":.*?,', '' | Set-Content dist/package.json\""
+```
